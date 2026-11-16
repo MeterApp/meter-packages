@@ -1,0 +1,39 @@
+name: Packages CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - name: Install packed packages and smoke test the CLI on Node 20
+        run: |
+          mkdir -p "$RUNNER_TEMP/archives"
+          pnpm --filter '@meterapp/meter-sdk' pack --pack-destination "$RUNNER_TEMP/archives"
+          pnpm --filter '@meterapp/meter' pack --pack-destination "$RUNNER_TEMP/archives"
+          npm install --ignore-scripts --prefix "$RUNNER_TEMP/consumer" "$RUNNER_TEMP/archives/"*.tgz
+          expected=$(node -p "require('./packages/meter-cli/package.json').version")
+          actual=$(npx --yes --package=node@20.10.0 node "$RUNNER_TEMP/consumer/node_modules/@meterapp/meter/dist/bin.js" --version)
+          test "$actual" = "$expected"

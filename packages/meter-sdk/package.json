@@ -1,0 +1,83 @@
+{
+  "name": "@meterapp/meter-sdk",
+  "version": "2.0.1",
+  "description": "Shared contracts for Meter's public AI surface: the MCP tool catalog, public DTO schemas, machine-readable field docs and a tiny MCP JSON-RPC client. Zero runtime dependencies beyond zod.",
+  "license": "MIT",
+  "author": "Meter <hello@meterapp.co> (https://www.meterapp.co)",
+  "homepage": "https://www.meterapp.co",
+  "keywords": [
+    "meter",
+    "mcp",
+    "agents",
+    "sdk",
+    "fleet",
+    "taxi"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./mcp": "./src/mcp/index.ts",
+    "./dto": "./src/dto/index.ts",
+    "./docs": "./src/docs/index.ts",
+    "./client": "./src/client.ts",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./mcp": {
+        "types": "./dist/mcp/index.d.ts",
+        "default": "./dist/mcp/index.js"
+      },
+      "./dto": {
+        "types": "./dist/dto/index.d.ts",
+        "default": "./dist/dto/index.js"
+      },
+      "./docs": {
+        "types": "./dist/docs/index.d.ts",
+        "default": "./dist/docs/index.js"
+      },
+      "./client": {
+        "types": "./dist/client.d.ts",
+        "default": "./dist/client.js"
+      },
+      "./package.json": "./package.json"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.10"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/postbuild.mjs",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "zod": "^4.6.7",
+    "vitest": "^4.1.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MeterApp/meter-packages.git",
+    "directory": "packages/meter-sdk"
+  }
+}

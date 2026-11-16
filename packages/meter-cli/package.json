@@ -1,0 +1,65 @@
+{
+  "name": "@meterapp/meter",
+  "version": "2.0.1",
+  "description": "Command-line client and MCP bridge for Meter, the taxi meter and fleet platform. Sign in with OAuth, query fleets, members, vehicles, trips, bookings, earnings and accounting from a terminal or a CI job, run a stdio MCP server, and generate agent configuration for Claude Code, Claude Desktop, Codex and ChatGPT.",
+  "license": "MIT",
+  "author": "Meter <hello@meterapp.co> (https://www.meterapp.co)",
+  "homepage": "https://www.meterapp.co/docs/mcp",
+  "bugs": {
+    "email": "hello@meterapp.co"
+  },
+  "keywords": [
+    "meter",
+    "taxi",
+    "fleet",
+    "cli",
+    "mcp",
+    "mcp-server",
+    "agents",
+    "claude",
+    "codex",
+    "chatgpt"
+  ],
+  "type": "module",
+  "bin": {
+    "meter": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.10"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/postbuild.mjs",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run && node --test scripts/release-plan.test.mjs"
+  },
+  "dependencies": {
+    "@meterapp/meter-sdk": "workspace:*",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "typescript": "6.0.3",
+    "vitest": "^4.1.12"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MeterApp/meter-packages.git",
+    "directory": "packages/meter-cli"
+  }
+}

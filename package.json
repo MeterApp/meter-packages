@@ -1,0 +1,11 @@
+{
+  "name": "meter-packages",
+  "private": true,
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=26"
+  },
+  "scripts": {
+    "check": "pnpm -r build && pnpm -r typecheck && pnpm -r test"
+  }
+}
