@@ -57,6 +57,9 @@ export const serviceZoneSchema = z
 export type ServiceZone = z.infer<typeof serviceZoneSchema>;
 export const serviceZoneWriteSchema = writeResultSchema(
   "zone",
-  serviceZoneSchema,
+  // A new zone's preview has no saved zone yet.
+  serviceZoneSchema
+    .nullable()
+    .describe("The saved zone; null on a preview that adds a new zone."),
   "Result of save_service_zone: what changed and the saved zone.",
 );
