@@ -89,6 +89,7 @@ import {
 import { tripAdjustmentWriteSchema } from "./trip-adjustments.ts";
 export * from "./trip-adjustments.ts";
 export * from "./fleet-pricing.ts";
+export * from "./ride-option-classes.ts";
 export * from "./service-zones.ts";
 export * from "./pricing-management.ts";
 import {

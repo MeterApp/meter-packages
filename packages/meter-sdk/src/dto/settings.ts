@@ -15,6 +15,7 @@ import {
 } from './common.ts';
 import { fareSummarySchema } from './fleet.ts';
 import { vehicleSchema } from './vehicle.ts';
+import { rideOptionServiceClassSchema } from './ride-option-classes.ts';
 
 /** A JSON scalar or small structure as it appears in a settings field. */
 export const settingValueSchema = field(
@@ -389,6 +390,14 @@ export const rideOptionDetailSchema = z
       'POINT_TO_POINT: upfront quote from A to B; TIME: hourly booking; METERED: priced by the meter.'
     ),
     capacity: field(z.number().int(), 'Passenger capacity.'),
+    service_class: field(
+      rideOptionServiceClassSchema,
+      'Ride option type: fixes the icon, rider copy and what a vehicle must have.'
+    ),
+    luggage_capacity: field(
+      z.number().int().nullable(),
+      'Bags the option is sold with, or null when not set.'
+    ),
     fare: field(
       fareDetailSchema.nullable(),
       'The default fare (rate card) riders are quoted with, or null when none is attached.'
