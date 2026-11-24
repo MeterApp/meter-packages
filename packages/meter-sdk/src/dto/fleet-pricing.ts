@@ -1,5 +1,9 @@
 import * as z from "zod";
 import { writeResultSchema } from "./settings.ts";
+import {
+  rideOptionRequirementsSchema,
+  rideOptionServiceClassSchema,
+} from "./ride-option-classes.ts";
 
 export const rideOptionStateSchema = z
   .strictObject({
@@ -14,10 +18,22 @@ export const rideOptionStateSchema = z
       .string()
       .uuid()
       .describe("Existing default fare; read get_fare for complete pricing."),
+    service_class: rideOptionServiceClassSchema.describe(
+      "Ride option type: fixes the icon, rider copy and what a vehicle must have. custom requires only what requirements lists.",
+    ),
+    luggage_capacity: z
+      .number()
+      .int()
+      .nullable()
+      .describe("Bags the option is sold with, or null when not set."),
+    requirements: rideOptionRequirementsSchema.describe(
+      "Vehicle requirements the fleet added to the type's own.",
+    ),
+    is_active: z.boolean().describe("False when the fleet switched it off."),
   })
   .meta({
     description:
-      "Saved ride option identity, booking type, capacity and default fare reference.",
+      "Saved ride option identity, type, booking mode, capacity and default fare reference.",
   });
 export type RideOptionState = z.infer<typeof rideOptionStateSchema>;
 export const rideOptionStateWriteSchema = writeResultSchema(

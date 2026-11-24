@@ -5,6 +5,10 @@ import {
   zoneFareWriteSchema,
 } from "../../dto/fleet-pricing.ts";
 import {
+  rideOptionRequirementsSchema,
+  rideOptionServiceClassSchema,
+} from "../../dto/ride-option-classes.ts";
+import {
   fleetIdSchema,
   dryRunSchema,
   proposalIdSchema,
@@ -35,6 +39,21 @@ export const fleetPricingSchemas = {
     fare_id: id.describe(
       "Default fare from list_fares/get_fare. Existing pricing is preserved.",
     ),
+    service_class: rideOptionServiceClassSchema
+      .optional()
+      .describe(
+        "Ride option type. Omit to let Meter infer it from the name and capacity (custom when nothing matches).",
+      ),
+    luggage_capacity: z
+      .number()
+      .int()
+      .min(0)
+      .max(99)
+      .optional()
+      .describe("Bags the option is sold with."),
+    requirements: rideOptionRequirementsSchema
+      .optional()
+      .describe("Extra vehicle requirements beyond the type's own."),
   }),
   delete_ride_option: z.strictObject({
     ...writeFields,
